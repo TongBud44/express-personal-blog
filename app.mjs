@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // post ไปที่ /posts
-app.post("/assignments", async (req, res) => {
+app.post("/posts", async (req, res) => {
   const newAssignment = {
     ...req.body,
   };
