@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import pool from "./utils/db.mjs";
+import { validatePostData } from "./middlewares/postValidation.mjs";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -9,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // post ไปที่ /posts
-app.post("/posts", async (req, res) => {
+app.post("/posts", [validatePostData], async (req, res) => {
   const newPost = {
     ...req.body,
   };
@@ -176,7 +177,7 @@ app.get("/posts/:postId", async (req, res) => {
 });
 
 // put ข้อมูลไปที่ /posts/:postId เพื่ออัพเดตข้อมูลใน posts
-app.put("/posts/:postId", async (req, res) => {
+app.put("/posts/:postId", [validatePostData], async (req, res) => {
   const postIdFromClient = req.params.postId;
   const updatedPost = { ...req.body, date: new Date() };
   let results;
